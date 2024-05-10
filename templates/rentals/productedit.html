@@ -1,0 +1,75 @@
+{% extends 'rentals/master.html' %}
+{% load static %} 
+{% block content %}
+
+    <div class="pagetitle">
+      <h1>Edit Forms</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Forms</li>
+          <li class="breadcrumb-item active">Elements</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Update Form Elements</h5>
+
+              <!-- General Form Elements -->
+              <form method="post" action="/household/update/{{data.id}}/">
+                {% csrf_token %}
+                <div class="row mb-3">
+                  <label for="inputText" class="col-sm-2 col-form-label">Name:</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="productName" value="{{data.productName}}">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="inputText" class="col-sm-2 col-form-label">Type of product:</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="productType" value="{{data.productType}}">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="inputText" class="col-sm-2 col-form-label">Bought date of product:</label>
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control" name="boughtdate" value="{{data.boughtdate}}">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="inputText" class="col-sm-2 col-form-label">Image of product:</label>
+                  <div class="col-sm-10">
+                    <input type="file" class="form-control" name="image" accept="image/*" value="{{data.image}}">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="inputText" class="col-sm-2 col-form-label">Price of product (per day):</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" name="price" value="{{data.price}}">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Submit Button</label>
+                  <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Press for update</button>
+                  </div>
+                </div>
+              </form><!-- End General Form Elements -->
+
+            </div>
+          </div>
+
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+{% endblock %}

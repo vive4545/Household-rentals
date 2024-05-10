@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url({% static 'rentals/img/slide-3.jpg' %}) center/cover no-repeat;
+        }
+
+        .container {
+            width: 70%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: red;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <title>Invoice Form</title>
+</head>
+<body>
+
+    <div class="container">
+        <h2><b><u>Invoice Form</u></b></h2>
+        <form action="#" method="post">
+            <label for="invoiceDate">Date of Invoice:</label>
+            <input type="date" id="invoiceDate" name="invoiceDate" required>
+
+            <label for="productRentDate">Date of Product Rent:</label>
+            <input type="date" id="productRentDate" name="productRentDate" required>
+
+            <label for="productName">Name of Product:</label>
+            <input type="text" id="productName" name="productName" required>
+
+            <label for="productUsageTime">Time of Product Used:</label>
+            <input type="time" id="productUsageTime" name="productUsageTime" required>
+
+            <label for="productPrice">Price of Product Use (based on time used):</label>
+            <input type="number" id="productPrice" name="productPrice" required>
+
+            <h3>Renter Details</h3>
+            <label for="renterName">Name:</label>
+            <input type="text" id="renterName" name="renterName" required>
+
+            <label for="renterPhone">Phone:</label>
+            <input type="tel" id="renterPhone" name="renterPhone" required>
+
+            <label for="renterEmail">Email:</label>
+            <input type="email" id="renterEmail" name="renterEmail" required>
+
+            <label for="renterAddress">Address:</label>
+            <textarea id="renterAddress" name="renterAddress" rows="6" required></textarea>
+
+            <button type="submit">Generate Invoice</button>
+        </form>
+    </div>
+
+</body>
+</html>

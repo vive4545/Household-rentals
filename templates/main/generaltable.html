@@ -1,0 +1,71 @@
+{% extends 'main/master.html' %}
+{% load static %}
+{% block content %}
+    <div class="pagetitle">
+      <h1>--RENTERS--</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Tables</li>
+          <li class="breadcrumb-item active">General</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-15">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Default Table</h5>
+
+              <!-- Default Table -->
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for ab in data %}
+                  <tr>
+                    <th scope="row">{{ab.id}}</th>
+                    <td>{{ab.email}}</td>
+                    <td>{{ab.phone}}</td>
+                    <td>{{ab.address}}</td>
+                    <td>
+                      <button type="submit"><a href="{% url 'deletecustomer' ab.id %}">Delete</a></button>
+                      <button type="submit"><a href="{% url 'editcustomer' ab.id  %}">Edit</a></button>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <!-- End Default Table Example -->
+                            <!-- Pagination -->
+                            <nav aria-label="Page navigation example">
+                              <ul class="pagination mx-3">
+                                {% if data.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                                <li class="page-item"><a class="page-link" href="?page={{ data.previous_page_number }}">Previous</a></li>
+                                {% endif %}
+                                <li class="page-item"><a class="page-link" href="#">{{ data.number }} of {{ data.paginator.num_pages }}</a></li>
+                                {% if data.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page={{ data.next_page_number }}">Next</a></li>
+                                <li class="page-item"><a class="page-link" href="?page={{ data.paginator.num_pages }}">Last</a></li>
+                                {% endif %}
+                              </ul>
+                            </nav>
+                            <!-- End Pagination -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  {% endblock %}

@@ -1,0 +1,167 @@
+{% extends "clients/master.html" %}
+{% load static %}
+{% load cart_tag %}
+{% block content %}
+	<!-- search area -->
+	<div class="search-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<span class="close-btn"><i class="fas fa-window-close"></i></span>
+					<div class="search-bar">
+						<div class="search-bar-tablecell">
+							<h3>Search For:</h3>
+							<input type="text" placeholder="Keywords">
+							<button type="submit">Search <i class="fas fa-search"></i></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end search arewa -->
+	
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Fancy and new furniture</p>
+						<h1>Check Out Product</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- check out section -->
+	<div class="checkout-section mt-150 mb-150">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8">
+					<div class="checkout-accordion-wrap">
+						<div class="accordion" id="accordionExample">
+						  <div class="card single-accordion">
+						    <div class="card-header" id="headingOne">
+						      <h5 class="mb-0">
+						        <button class="btn btn-link" type="button"  data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						          Billing Address of    {{request.user}}
+						        </button>
+						      </h5>
+						    </div>
+
+						    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+						      <div class="card-body">
+						        <div class="billing-address-form">
+						        	<form method="post" enctype="multipart/form-data">
+										{% csrf_token %}
+						        		<p><input type="text" name="name" placeholder="Name" value="{{request.user.username}}"></p>
+						        		<p><input type="email" name = "email" placeholder="Email" value="{{request.user.email}}"></p>
+						        		<p><input type="text" name = "address" placeholder="Address"></p>
+						        		<p><input type="tel" name = "phone" placeholder="Phone"></p>
+										
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+						  <div class="card single-accordion">
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="order-details-wrap">
+						<table class="table site-block-order-table mb-5">
+							<thead>
+							  <th>Product</th>
+							  <th>Quantity</th>
+							  <th>Total</th>
+							</thead>
+							<tbody>
+								{% for key,value in request.session.cart.items %}
+								<tr>
+									<td>{{value.name}}</td>
+									<td>{{value.quantity}}</td>
+									<td>Rs{{value.price}}*{{value.quantity}}</td>
+								  </tr>
+								  {% endfor %}
+								  <tr>
+								  <tr>
+									<td class="text-black font-weight-bold">
+									  <strong>GST :</strong>
+									</td>
+									<td></td>
+									<td class="text-black font-weight-bold">
+									  <strong>Rs{{gst}}</strong>
+									</td>
+								  </tr>
+								  <tr>
+									<td class="text-black font-weight-bold">
+									  <strong>Total:</strong>
+									</td>
+									<td></td>
+									<td class="text-black font-weight-bold">
+									  <strong>Rs{{total}}</strong>
+									</td>
+								  </tr>
+								  <tr>
+									<td class="text-black font-weight-bold">
+									  <strong>Coupon:</strong>
+									</td>
+									<td></td>
+									<td class="text-black font-weight-bold">
+									  <strong>Rs{{coupan}}</strong>
+									</td>
+								  </tr>
+								  <tr>
+									<td class="text-black font-weight-bold">
+									  <strong>Discount After applied coupon</strong>
+									</td>
+									<td></td>
+									<td class="text-black font-weight-bold">
+									  <strong>Rs{{total_last}}</strong>
+									</td>
+								  </tr>
+							</tbody>
+						  </table>
+						  <button type="button" onclick="window.location.href = '{% url 'payment' %}'" class="boxed-btn">Confirm order</button>
+
+
+					</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end check out section -->
+
+	<!-- logo carousel -->
+	<div class="logo-carousel-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="logo-carousel-inner">
+						<div class="single-logo-item">
+							<img src="{% static 'clients/assets/img/company-logos/1.png' %}" alt="">
+						</div>
+						<div class="single-logo-item">
+							<img src="{% static 'clients/assets/img/company-logos/2.png' %}" alt="">
+						</div>
+						<div class="single-logo-item">
+							<img src="{% static 'clients/assets/img/company-logos/3.png' %}" alt="">
+						</div>
+						<div class="single-logo-item">
+							<img src="{% static 'clients/assets/img/company-logos/4.png' %}" alt="">
+						</div>
+						<div class="single-logo-item">
+							<img src="{% static 'clients/assets/img/company-logos/5.png' %}" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end logo carousel -->
+{% endblock %}

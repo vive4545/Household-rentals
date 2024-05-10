@@ -1,0 +1,195 @@
+{% extends "clients/master.html" %}
+{% load static %}
+{% load cart_tag %}
+{% block content %}
+<head>
+	<style>
+		.quantity-selector {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-selector input[type="number"] {
+            width: 50px;
+            text-align: center;
+        }
+
+        .quantity-selector button {
+            background-color: #f0f0f0;
+            border: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            margin: 0;
+        }
+	</style>
+	<!-- search area -->
+	<div class="search-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<span class="close-btn"><i class="fas fa-window-close"></i></span>
+					<div class="search-bar">
+						<div class="search-bar-tablecell">
+							<h3>Search For:</h3>
+							<input type="text" placeholder="Keywords">
+							<button type="submit">Search <i class="fas fa-search"></i></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end search arewa -->
+	
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Fancy And New Design</p>
+						<h1>Cart</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- cart -->
+	<div class="cart-section mt-150 mb-150">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-md-12">
+					<div class="cart-table-wrap">
+						<table class="cart-table">
+							<thead class="cart-table-head">
+								<tr class="table-head-row">
+									<th class="product-remove"></th>
+									<th class="product-image">Product Image</th>
+									<th class="product-name">Name</th>
+									<th class="product-price">Price</th>
+									<th class="product-quantity">Quantity</th>
+									<th class="product-total">Total</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for key,value in request.session.cart.items %}
+								<tr class="table-body-row">
+									<td class="product-remove"><a href="{% url 'item_clear' value.product_id %}"><i class="far fa-window-close"></i></a></td>
+									<td class="product-image"><img src="{{value.image}}" alt=""></td>
+									<td class="product-name">{{value.name}}</td>
+									<td class="product-price">{{value.price}}</td>
+									<td class="quantity-selector">
+										<a href = "{% url 'item_decrement' value.product_id %}"><button type = "submit">-</a></button>
+										<class="product-quantity"><input type="number" id="quantityInput"  value="{{value.quantity}}" placeholder="0" min="0">
+										<a href = "{% url 'item_increment' value.product_id %}"><button  type = "submit">+</a></button>
+									</td>									
+									<td class="product-total" id="subtotalElements"></td>
+								</tr>
+								{%endfor%}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="total-section">
+						<table class="total-table">
+							<thead class="total-table-head">
+								<tr class="table-total-row">
+									<th>Total</th>
+									<th>Price</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="total-data">
+                                    <td><strong>Subtotal : </strong></td>
+                                    <td>{{subtotal}}</td>
+                                </tr>
+								<tr class="total-data">
+									<td><strong id>GST(18%) :</strong></td>
+									<td>{{gst}}</td>
+								</tr>
+								<tr class="total-data">
+                                    <td><strong>Total : </strong></td>
+                                    <td>{{total}}</td>
+                                </tr>
+							</tbody>
+						</table>
+
+						<div class="coupon-section">
+							<h3>Apply Coupon</h3>
+							<div class="coupon-form-wrap">
+								<form method="post" action="{% url 'applycoupan' %}">
+									{% csrf_token %} 
+									<p><input type="text" name="coupan" placeholder="Coupon"></p>
+									</div>
+								</div>
+								
+								<div class="cart-buttons">
+									<a href="{% url 'cart_clear' %}" class="boxed-btn">Clear Cart</a>
+									<button type="submit" class="boxed-btn black">Check Out</button>
+								</div>
+							</form>
+					</div>
+
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end cart -->
+
+	<!-- logo carousel -->
+	<div class="logo-carousel-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="logo-carousel-inner">
+						<div class="single-logo-item">
+							<img src="{% static 'clients/assets/img/company-logos/1.png' %}" alt="">
+						</div>
+						<div class="single-logo-item">
+							<img src="{% static 'clients/assets/img/company-logos/2.png' %}" alt="">
+						</div>
+						<div class="single-logo-item">
+							<img src="{% static 'clients/assets/img/company-logos/3.png' %}" alt="">
+						</div>
+						<div class="single-logo-item">
+							<img src="{% static 'clients/assets/img/company-logos/4.png' %}" alt="">
+						</div>
+						<div class="single-logo-item">
+							<img src="{% static 'clients/assets/img/company-logos/5.png' %}" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end logo carousel -->		
+
+
+	<script>
+		window.onload = function() {
+			updateSubtotals(); 
+		};
+	
+		function updateSubtotals() {
+			var rows = document.querySelectorAll('.table-body-row');
+	
+			rows.forEach(function(row) {
+				var quantityInput = row.querySelector('.quantity-selector input[type="number"]');
+				var productPrice = row.querySelector('.product-price');
+				var subtotalElement = row.querySelector('.product-total');
+	
+				var quantity = parseInt(quantityInput.value);
+				var price = parseFloat(productPrice.innerText);
+				var subtotal = quantity * price;
+				subtotalElement.innerText = subtotal.toFixed(2); 
+			});
+		}
+	</script>
+	
+
+
+{% endblock %}

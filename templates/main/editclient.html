@@ -1,0 +1,108 @@
+{% extends 'main/master.html' %}
+{% load static %} 
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<div class="pagetitle">
+    <h1>Form Elements</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item">Forms</li>
+            <li class="breadcrumb-item active">Elements</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-18">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Edit Form Elements</h5>
+                    <!-- General Form Elements -->
+                    <form method="post" enctype="multipart/form-data" action="/main/updateclient/{{data.id}}/">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="name" value="{{data.name}}">
+                            </div>
+                        </div>              
+                        <div class="row mb-3">
+                            <label for="inputPassword" class="col-sm-2 col-form-label">Address</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="address" value="{{data.address}}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputNumber" class="col-sm-2 col-form-label">Phone</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" name="phone" value="{{data.phone}}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" name="email" value="{{data.email}}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputImage" class="col-sm-2 col-form-label">Image Upload</label>
+                            <div class="col-sm-10">
+                                <input type="file" class="form-control" name="proof" id="inputImage">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label">Submit Button</label>
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary">Press for update</button>
+                            </div>
+                        </div>
+                    </form><!-- End General Form Elements -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Update Confirmation Modal -->
+<div class="modal fade" id="updateConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="updateConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateConfirmationModalLabel">Confirm Update</h5>
+                <button type="button" class="close" onclick="showCancelConfirmationModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to update this item?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="showCancelConfirmationModal()">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="performUpdate()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        function showUpdateSuccessMessage() {
+            alert('Update successful!');
+        }
+    
+        function showDeletemodal(itemId) {
+            console.log('Delete button clicked');
+            console.log(itemId);
+            var deleteUrl = "/main/deleteclient/" + itemId + "/";
+            $('#deleteButton').attr('href', deleteUrl);
+            $('#deleteConfirmationModal').modal('show');
+        }
+    
+        function showCancelConfirmationModal() {
+            $('#deleteConfirmationModal').modal('hide');
+        }
+    </script>
+    
+
+{% endblock %}

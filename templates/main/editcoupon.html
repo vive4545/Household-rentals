@@ -1,0 +1,95 @@
+{% extends 'main/master.html' %}
+{% load static %} 
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<div class="pagetitle">
+    <h1>Form Elements</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item">Forms</li>
+            <li class="breadcrumb-item active">Elements</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-18">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Edit Coupon</h5>
+                    <!-- General Form Elements -->
+                    <form method="post" action="/main/updatecoupons/{{data.id}}/">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                          <label for="inputCode" class="col-sm-2 col-form-label">Code</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control" name="code" id="inputCode" value="{{data.code}}">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="inputDiscount" class="col-sm-2 col-form-label">Discount</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control" name="discount"id="inputDiscount" value="{{data.discount}}">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="inputExpiry" class="col-sm-2 col-form-label">Expiry date</label>
+                          <div class="col-sm-10">
+                            <input type="datetime-local" class="form-control" name="expiry_date" id="inputExpiry" value="{{data.expiry_date}}">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <div class="col-sm-10 offset-sm-2">
+                            <button type="submit" class="btn btn-primary">Press for update</button>
+                          </div>
+                        </div>
+                      </form><!-- End General Form Elements -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Update Confirmation Modal -->
+<div class="modal fade" id="updateConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="updateConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateConfirmationModalLabel">Confirm Update</h5>
+                <button type="button" class="close" onclick="showCancelConfirmationModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to update this item?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="showCancelConfirmationModal()">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="performUpdate()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        function showUpdateSuccessMessage() {
+            alert('Update successful!');
+        }
+    
+        function showDeletemodal(itemId) {
+            console.log('Delete button clicked');
+            console.log(itemId);
+            var deleteUrl = "/main/deletecoupon/" + itemId + "/";
+            $('#deleteButton').attr('href', deleteUrl);
+            $('#deleteConfirmationModal').modal('show');
+        }
+    
+        function showCancelConfirmationModal() {
+            $('#deleteConfirmationModal').modal('hide');
+        }
+    </script>
+    
+
+{% endblock %}
